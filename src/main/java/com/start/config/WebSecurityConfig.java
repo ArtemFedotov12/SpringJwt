@@ -38,12 +38,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+        // configure AuthenticationManager so that it knows from where to load
+        // user for matching credentials
+        // Use BCryptPasswordEncoder
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(encoder());
     }
 
     @Bean
-    public JwtAuthenticationFilter authenticationTokenFilterBean() throws Exception {
+    public JwtAuthenticationFilter authenticationTokenFilterBean() {
         return new JwtAuthenticationFilter();
     }
 
@@ -76,8 +79,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
-
-
 
 
 }
