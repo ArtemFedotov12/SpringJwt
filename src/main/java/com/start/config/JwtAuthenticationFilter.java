@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private TokenProvider jwtTokenUtil;
+    private JwtTokekUtil jwtTokenUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -38,6 +38,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith(TOKEN_PREFIX)) {
             authToken = header.replace(TOKEN_PREFIX,"");
             try {
+                // first it will be getAllClaimsFromToken() and check sign!!!!
+                // then claims.getString("sub");
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {
                 logger.error("an error occured during getting username from token", e);
@@ -51,9 +53,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
+            // load user from db(bad approach)
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            if (!jwtTokenUtil.isTokenExpired(authToken)) {
+            if (jwtTokenUtil.isTokenNotExpired(authToken)) {
                 UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthentication(authToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
                 /**
                  * Stores additional details about the authentication request. These might be an IP

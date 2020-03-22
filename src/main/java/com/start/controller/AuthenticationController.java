@@ -1,7 +1,7 @@
 package com.start.controller;
 
-import com.start.config.TokenProvider;
-import com.start.model.dto.AuthDto;
+import com.start.config.JwtTokekUtil;
+import com.start.model.dto.AuthenticationDto;
 import com.start.model.dto.AuthTokenDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,16 +24,18 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private TokenProvider jwtTokenUtil;
+    private JwtTokekUtil jwtTokenUtil;
 
     @PostMapping
     @ApiOperation("Token's generation")
-    public ResponseEntity<?> register(@RequestBody AuthDto authDto) throws AuthenticationException {
+    public ResponseEntity<?> register(@RequestBody AuthenticationDto authenticationDto) throws AuthenticationException {
 
+        //UserDetailsService -> loadUserByUsername(String username) is called
+        // see javaDoc  ---- authenticationManager.authenticate
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        authDto.getUsername(),
-                        authDto.getPassword()
+                        authenticationDto.getUsername(),
+                        authenticationDto.getPassword()
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);

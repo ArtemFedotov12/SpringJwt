@@ -15,12 +15,10 @@ import java.util.Date;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.start.utils.Constants.ACCESS_TOKEN_VALIDITY_SECONDS;
-import static com.start.utils.Constants.AUTHORITIES_KEY;
-import static com.start.utils.Constants.SIGNING_KEY;
+import static com.start.utils.Constants.*;
 
 @Component
-public class TokenProvider implements Serializable {
+public class JwtTokekUtil implements Serializable {
 
     public String getUsernameFromToken(String token) {
         // Function Interface --- getString("sub");
@@ -46,9 +44,9 @@ public class TokenProvider implements Serializable {
                 .getBody();
     }
 
-    public Boolean isTokenExpired(String token) {
+    public boolean isTokenNotExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
+        return expiration.after(new Date());
     }
 
     public String generateToken(Authentication authentication) {
@@ -58,13 +56,14 @@ public class TokenProvider implements Serializable {
         return Jwts.builder()
                 // key - "sub"
                 .setSubject(authentication.getName())
+                //Sets a custom JWT Claims parameter value
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)
                 // key - 'iat'
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                //1000 - means milliseconds  and 5*60*60 = 18000 seconds = 5 hours
+                // 18000 seconds = 5 hours
                 // key - 'exp'
-                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_SECONDS*1000))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_ACCESS_TOKEN_VALIDITY_MILLISECONDS))
                 .compact();
     }
 
