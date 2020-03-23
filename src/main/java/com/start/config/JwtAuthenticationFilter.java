@@ -23,7 +23,7 @@ import static com.start.utils.Constants.TOKEN_PREFIX;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
-    @Qualifier("userService")
+    @Qualifier("userDetailsService")
     @Autowired
     private UserDetailsService userDetailsService;
 

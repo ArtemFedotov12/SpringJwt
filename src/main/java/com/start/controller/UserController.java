@@ -1,8 +1,8 @@
 package com.start.controller;
 
-import com.start.model.entities.User;
 import com.start.model.dto.UserDto;
-import com.start.service.userService.UserService;
+import com.start.model.entities.User;
+import com.start.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
