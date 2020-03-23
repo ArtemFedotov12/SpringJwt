@@ -8,7 +8,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 import static com.start.utils.Constants.*;
 
 @Component
-public class JwtTokekUtil implements Serializable {
+public class JwtTokekUtil {
 
     public String getUsernameFromToken(String token) {
         // Function Interface --- getString("sub");

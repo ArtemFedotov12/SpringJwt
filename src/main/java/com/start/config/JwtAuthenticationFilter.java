@@ -2,8 +2,6 @@ package com.start.config;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,15 +18,16 @@ import java.io.IOException;
 import static com.start.utils.Constants.HEADER_STRING;
 import static com.start.utils.Constants.TOKEN_PREFIX;
 
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private final UserDetailsService userDetailsService;
+    private final JwtTokekUtil jwtTokenUtil;
 
-    @Qualifier("userDetailsService")
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private JwtTokekUtil jwtTokenUtil;
+    public JwtAuthenticationFilter(UserDetailsService userDetailsService, JwtTokekUtil jwtTokenUtil) {
+        this.userDetailsService = userDetailsService;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {

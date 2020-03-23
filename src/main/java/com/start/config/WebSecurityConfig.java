@@ -1,6 +1,8 @@
 package com.start.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,15 +24,21 @@ import javax.annotation.Resource;
 @EnableWebMvc
 //@EnableGlobalMethodSecurity(securedEnabled = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Resource(name = "userDetailsService")
-    private UserDetailsService userDetailsService;
+    @Qualifier("userDetailsService")
+    private final UserDetailsService userDetailsService;
+    private final   JwtTokekUtil jwtTokenUtil;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    public WebSecurityConfig(UserDetailsService userDetailsService, JwtTokekUtil jwtTokenUtil, JwtAuthenticationEntryPoint unauthorizedHandler) {
+        this.userDetailsService = userDetailsService;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.unauthorizedHandler = unauthorizedHandler;
+    }
 
-    @Override
+/*    @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
@@ -43,12 +51,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Use BCryptPasswordEncoder
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(encoder());
-    }
+    }*/
 
-    @Bean
+ /*   @Bean
     public JwtAuthenticationFilter authenticationTokenFilterBean() {
-        return new JwtAuthenticationFilter();
-    }
+        return new JwtAuthenticationFilter(userDetailsService,jwtTokenUtil);
+    }*/
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -63,21 +71,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .anyRequest()
                 .authenticated()
+
+                    .and()
+                .apply(securityConfigurerAdapter())
+
                     .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler)
+
                     .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
-        http
-                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+       /* http
+                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);*/
     }
 
     @Bean
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    private JWTConfigurer securityConfigurerAdapter() {
+        return new JWTConfigurer(userDetailsService,jwtTokenUtil);
     }
 
 
