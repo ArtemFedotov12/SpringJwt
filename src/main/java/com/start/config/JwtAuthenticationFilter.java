@@ -37,8 +37,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith(TOKEN_PREFIX)) {
             authToken = header.replace(TOKEN_PREFIX,"");
             try {
-                // first it will be getAllClaimsFromToken() and check sign!!!!
-                // then claims.getString("sub");
+              /*   first it will be getAllClaimsFromToken() and check sign!!!!
+                 then claims.getString("sub");*/
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {
                 logger.error("an error occured during getting username from token", e);
