@@ -1,0 +1,1 @@
+drop DATABASE security; create DATABASE security;
