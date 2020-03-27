@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.start.utils.Constants.HEADER_STRING;
-import static com.start.utils.Constants.TOKEN_PREFIX;
+import static com.start.utils.Constants.TOKEN_PREFIX_WITH_SPACE;
 
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -34,8 +34,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = req.getHeader(HEADER_STRING);
         String username = null;
         String authToken = null;
-        if (header != null && header.startsWith(TOKEN_PREFIX)) {
-            authToken = header.replace(TOKEN_PREFIX,"");
+        if (header != null && header.startsWith(TOKEN_PREFIX_WITH_SPACE)) {
+            authToken = header.replace(TOKEN_PREFIX_WITH_SPACE,"");
             try {
               /*   first it will be getAllClaimsFromToken() and check sign!!!!
                  then claims.getString("sub");*/

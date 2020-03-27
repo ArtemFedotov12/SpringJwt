@@ -10,6 +10,6 @@ public class UserDto {
     private String username;
     private String password;
     private int age;
-    private int salary;
+    private float salary;
 
 }

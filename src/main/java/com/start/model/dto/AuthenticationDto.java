@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationDto {
+public class AuthenticationDto extends AbstractDto{
+
+    private static final long serialVersionUID = -46434441822649558L;
 
     private String username;
     private String password;

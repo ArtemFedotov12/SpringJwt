@@ -1,7 +1,7 @@
 package com.start.service;
 
-import com.start.dao.UserDao;
 import com.start.model.entities.User;
+import com.start.repository.UserRepo;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,15 +15,15 @@ import java.util.Set;
 @Service(value = "userDetailsService")
 public class UserModelDetailsService implements UserDetailsService {
 
-	private final UserDao userDao;
+	private final UserRepo userRepo;
 
-	public UserModelDetailsService(UserDao userDao) {
-		this.userDao = userDao;
+	public UserModelDetailsService(UserRepo userRepo) {
+		this.userRepo = userRepo;
 	}
 
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userDao.findByUsername(username);
+		User user = userRepo.findByUsername(username);
 		if(user == null){
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}

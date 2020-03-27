@@ -1,4 +1,4 @@
-package com.start.util;
+package com.start.integrationTesting.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;

@@ -1,12 +1,4 @@
-package com.start.security;
-
-import com.start.utils.SecurityUtils;
-import org.junit.Test;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.util.Optional;
+package com.start.integrationTesting.security;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

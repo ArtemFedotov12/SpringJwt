@@ -1,0 +1,1 @@
+drop DATABASE if exists security_test; create DATABASE security_test;

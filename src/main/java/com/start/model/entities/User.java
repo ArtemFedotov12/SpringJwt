@@ -2,6 +2,7 @@ package com.start.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,20 +12,21 @@ import java.util.Set;
 @Setter
 @Entity
 @ApiModel(description="All details about the Employee. ")
-public class User {
+// 'callSuper = false' --- means dont't take into consideration parent fields
+@EqualsAndHashCode(of={"username"}, callSuper = false)
+public class User extends AbstractEntity{
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long id;
     @Column
     private String username;
     @Column
     @JsonIgnore
     private String password;
     @Column
-    private long salary;
+    private float salary;
     @Column
     private int age;
+    @Column
+    private boolean isActive = true;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLES", joinColumns = {

@@ -1,4 +1,4 @@
-package com.start.examples;
+package com.start.integrationTesting.examples;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
