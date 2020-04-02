@@ -1,8 +1,6 @@
 package com.start.model.converter;
 
-import com.start.model.dto.PermissionDto;
 import com.start.model.dto.UserDto;
-import com.start.model.entities.Permission;
 import com.start.model.entities.User;
 
 import static java.util.Optional.ofNullable;
