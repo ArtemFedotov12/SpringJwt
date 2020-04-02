@@ -31,11 +31,12 @@ public class AuthenticationController {
     @ApiOperation("Token's generation")
     public ResponseEntity<AuthTokenDto> register(@RequestBody AuthenticationDto authenticationDto) throws AuthenticationException {
 
-        //UserDetailsService -> loadUserByUsername(String username) is called
-        // see javaDoc  ---- authenticationManager.authenticate
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authenticationDto.getUsername(), authenticationDto.getPassword());
 
+        /*UserDetailsService -> loadUserByUsername(String username) is called
+         see javaDoc  ---- authenticationManager.authenticate*/
         final Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = jwtTokenUtil.generateToken(authentication);
