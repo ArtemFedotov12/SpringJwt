@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -57,7 +58,8 @@ public class JwtTokekUtil {
                 .setSubject(authentication.getName())
                 //Sets a custom JWT Claims parameter value
                 .claim(AUTHORITIES_KEY, authorities)
-                .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)
+                //Important to specify UTF-8.
+                .signWith(SignatureAlgorithm.HS256, SIGNING_KEY.getBytes(StandardCharsets.UTF_8))
                 // key - 'iat'
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 // 18000 seconds = 5 hours
