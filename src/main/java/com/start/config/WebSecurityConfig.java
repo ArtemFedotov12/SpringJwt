@@ -23,8 +23,10 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 @EnableWebMvc
 //@EnableGlobalMethodSecurity(securedEnabled = true)
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 
+// In this line, we activate @PreFilter, @PreAuthorize,
+// @PostFilter, @PostAuthorize annotations on any spring beans in the context.
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Qualifier("userDetailsService")
@@ -84,7 +86,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
-       /* http
+       /*
+        see 'securityConfigurerAdapter()' method
+        http
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);*/
     }
 
